@@ -4,30 +4,45 @@ import objects.Field;
 import objects.Ground;
 
 public class MakeMineField {
-	int easy = 8, normal = 16, hard = 32;
-	public int lives;
+	public static int EASY_SIZE = 8, NORMAL_SIZE = 16, HARD_SIZE = 32;
+	public static int EASY_LIVES = 6, NORMAL_LIVES = 4, HARD_LIVES = 2;
+	public static int EASY_MINES_MIN = 16, NORMAL_MINES_MIN = 64, HARD_MINES_MIN = 256;
+	public static int EASY_MINES_MAX = 8, NORMAL_MINES_MAX = 64, HARD_MINES_MAX = 256;
+	public static int EASY = 1, NORMAL = 2, HARD = 3;
+
 	public Ground mineField;
 
 	public MakeMineField(int dificulty) {
 		mineField = setUpMineField(dificulty);
 	}
 
+	public Ground getMineField() {
+		return mineField;
+	}
+	
+	public void setMineField(Ground mineField) {
+		this.mineField = mineField;
+	}
+	
 	public Ground setUpMineField(int dificulty) {
 		Ground field = new Ground();
 		field.setDificulty(dificulty);
 		;
 		switch (field.getDificulty()) {
 		case 1:
-			field.setMines(generateRandomInt(16, 8));
-			lives = 8;
+			field.setMines(generateRandomInt(EASY_MINES_MIN, EASY_MINES_MAX));
+			field.setLives(EASY_LIVES);
+			field.setTiles((EASY_SIZE * EASY_SIZE) - field.getMines());
 			break;
 		case 2:
-			field.setMines(generateRandomInt(64, 64));
-			lives = 4;
+			field.setMines(generateRandomInt(NORMAL_MINES_MIN, NORMAL_MINES_MAX));
+			field.setLives(NORMAL_LIVES);
+			field.setTiles((NORMAL_SIZE * NORMAL_SIZE) - field.getMines());
 			break;
 		case 3:
-			field.setMines(generateRandomInt(256, 256));
-			lives = 2;
+			field.setMines(generateRandomInt(HARD_MINES_MIN, HARD_MINES_MAX));
+			field.setLives(HARD_LIVES);
+			field.setTiles((HARD_SIZE * HARD_SIZE) - field.getMines());
 			break;
 		}
 		this.layMines(field);
@@ -39,13 +54,13 @@ public class MakeMineField {
 		Field[][] mineField;
 		switch (field.getDificulty()) {
 		case 2:
-			mineField = (new Field[normal][normal]);
+			mineField = (new Field[NORMAL_SIZE][NORMAL_SIZE]);
 			break;
 		case 3:
-			mineField = (new Field[hard][hard]);
+			mineField = (new Field[HARD_SIZE][HARD_SIZE]);
 			break;
 		default:
-			mineField = (new Field[easy][easy]);
+			mineField = (new Field[EASY_SIZE][EASY_SIZE]);
 			break;
 		}
 		int mines = field.getMines();
@@ -60,7 +75,6 @@ public class MakeMineField {
 					mines--;
 					mineField[i][j] = new Field(true);
 				} else {
-
 					mineField[i][j] = new Field(false);
 				}
 			}
@@ -112,7 +126,6 @@ public class MakeMineField {
 					}
 					mineField[i][j].setNeighbours(neighbours);
 				}
-				
 			}
 		}
 		field.setPlace(mineField);
@@ -121,7 +134,7 @@ public class MakeMineField {
 	public int generateRandomInt(int min, int max) {
 		return (int) (Math.round(Math.random() * 10) % (max + 1)) + min;
 	}
-//TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!TESTING ONLY!!!!
+
 	public void print(boolean p, int mode) {
 		Field[][] tmp = mineField.getPlace();
 		System.out.println("mines:" + mineField.getMines());

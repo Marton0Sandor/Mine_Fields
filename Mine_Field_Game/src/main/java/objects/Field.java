@@ -21,13 +21,14 @@ public class Field {
 	}
 	public void setBoom(boolean boom) {
 		this.boom = boom;
-	}	
+	}
 	public boolean isBoom() {
 		return boom;
 	}
 	public boolean isClicked() {
 		return clicked;
 	}
+	
 	public void setClicked(boolean clicked) {
 		this.clicked = clicked;
 	}
