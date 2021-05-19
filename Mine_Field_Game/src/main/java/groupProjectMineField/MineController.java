@@ -1,10 +1,16 @@
 package groupProjectMineField;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import make.MakeMineField;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 public class MineController {
@@ -22,10 +28,25 @@ public class MineController {
 	
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        
-		MakeMineField m = new MakeMineField(difficulty);
-		m.print(true, 0);
-       
+        try {
+        	FXMLLoader fxmlLoader = new FXMLLoader();
+        	fxmlLoader.setLocation(getClass().getResource("/groupProjectMineField/MineField_scene.fxml"));
+
+        	MineFieldController ctrl = new MineFieldController();
+        	ctrl.MineFieldInit(difficulty);
+        	fxmlLoader.setController(ctrl);
+        	
+            Stage stage = new Stage();
+            stage.setTitle("My New Stage Title");
+            stage.setScene(new Scene(fxmlLoader.load()));
+            
+            ctrl.PopulateField(stage);
+            stage.show();
+ //         ((Node)(event.getSource())).getScene().getWindow().hide();
+        }
+	    catch (Exception e) {
+	        e.printStackTrace();
+	    }      
     }
     
     @FXML

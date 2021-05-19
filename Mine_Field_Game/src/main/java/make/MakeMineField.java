@@ -19,6 +19,14 @@ public class MakeMineField {
 	public Ground getMineField() {
 		return mineField;
 	}
+
+	public int getWidth() {
+		return mineField.getPlace().length;
+	}
+
+	public int getHeight() {
+		return mineField.getPlace()[0].length;
+	}
 	
 	public void setMineField(Ground mineField) {
 		this.mineField = mineField;

@@ -2,8 +2,12 @@ package objects;
 
 public class Field {
 	public boolean boom; //mine --> true, ground --> false 
-	public int neighbours; //number of mines eround it. If this is a mine its -1.
+	public int neighbours; //number of mines around it. If this is a mine its -1.
 	public boolean clicked;//false = have not been stepped on it. true have been stepped on it.
+	
+	public int x;
+	public int y;
+	
 	public Field(boolean boom)
 	{
 		this.boom = boom;
