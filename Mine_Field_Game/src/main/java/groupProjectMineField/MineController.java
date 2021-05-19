@@ -1,17 +1,13 @@
 package groupProjectMineField;
 
-import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 
 public class MineController {
 	
@@ -51,19 +47,19 @@ public class MineController {
     
     @FXML
     private void handleEasy(ActionEvent event) {
-        description.setText("Difficulty: Easy\nLives: 6\nField size: 8x8\nMine count: 8-16");
+        description.setText("Difficulty: Easy\nLives: 6\nField size: 8x8\nMine count: 16-24");
         difficulty = 1;
     }
     
     @FXML
     private void handleMedium(ActionEvent event) {
-        description.setText("Difficulty: Medium\nLives: 4\nField size: 16x16\nMine count: 64");
+        description.setText("Difficulty: Medium\nLives: 4\nField size: 16x16\nMine count: 64-128");
         difficulty = 2;
     }
     
     @FXML
     private void handleHard(ActionEvent event) {
-        description.setText("Difficulty: Hard\nLives: 2\nField size: 32x32\nMine count: 256");
+        description.setText("Difficulty: Hard\nLives: 2\nField size: 32x32\nMine count: 256-512");
         difficulty = 3;
     }
 

@@ -17,6 +17,11 @@ public class Field {
 			neighbours = 9;
 		}
 	}
+	/*
+	public int getType() {
+		return type;
+	}
+	*/
 	public int getNeighbours() {
 		return neighbours;
 	}
@@ -32,7 +37,11 @@ public class Field {
 	public boolean isClicked() {
 		return clicked;
 	}
-	
+	/*
+	public void setType(int type) {
+		this.type = type;
+	}
+	*/
 	public void setClicked(boolean clicked) {
 		this.clicked = clicked;
 	}

@@ -71,7 +71,7 @@ public class CliGame {
 		read = true;
 		System.out.println("Number of lives left:" + lives);
 		System.out.println("Number of mines left:" + mines);
-		System.out.println("Number of lives left:" + tiles);
+		System.out.println("Number of tiles left:" + tiles);
 		System.out.println("Add the coordinates of tile what you want to step on?\n"
 				+ "Fist is the x and then the y separated by a ',' (comma).\n"
 				+ "The range of them from 0 to " + width + ".\n"
@@ -142,8 +142,8 @@ public class CliGame {
 			System.out.println("");
 			System.out.println("Number of lives left:" + lives);
 			System.out.println("Number of mines left:" + mines);
-			System.out.println("Number of lives left:" + tiles);
-			
+			System.out.println("Number of tiles left:" + tiles);
+			System.out.print("You have chousen:");
 			CliGame.print(game ,true, 2);
 		}
 			
