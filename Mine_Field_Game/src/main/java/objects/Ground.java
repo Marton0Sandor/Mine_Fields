@@ -21,6 +21,9 @@ public class Ground {
 	public Ground() {}
 	
 	public int step(int x, int y) {
+		
+		if (x<0 || x>=place.length || y<0 || y>=place[0].length) return 0;
+		
 		try {
 			Ground.fw = new FileWriter("a.txt");
 		} catch (Exception e) {
@@ -40,6 +43,19 @@ public class Ground {
 		}
 		place[y][x].setClicked(true);
 		tiles--;
+		
+		if (place[y][x].getNeighbours() == 0)
+		{
+			step(x-1, y-1);
+			step(x-1, y);
+			step(x-1, y+1);
+			step(x, y-1);
+			step(x, y+1);
+			step(x+1, y-1);
+			step(x+1, y);
+			step(x+1, y+1);
+		}
+		
 		return 1;
 	}
 	

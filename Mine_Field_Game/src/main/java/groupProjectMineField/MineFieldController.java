@@ -76,10 +76,10 @@ public class MineFieldController {
 			if (((Field)b.getUserData()).isClicked())
 			{
 		    	if (f.isBoom()) {
-		    		control.setText("*");
+		    		b.setText("*");
 		    	} else {
 		    		int count = f.getNeighbours();
-		    		if (count > 0) control.setText(String.valueOf(count));
+		    		if (count > 0) b.setText(String.valueOf(count));
 		    	}
 			
 				b.setDisable(true);

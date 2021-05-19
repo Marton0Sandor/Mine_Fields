@@ -33,7 +33,7 @@ public class MineController {
         	fxmlLoader.setController(ctrl);
         	
             Stage stage = new Stage();
-            stage.setTitle("My New Stage Title");
+            stage.setTitle("Mine Fields");
             stage.setScene(new Scene(fxmlLoader.load()));
             
             ctrl.PopulateField(stage);
