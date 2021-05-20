@@ -3,6 +3,9 @@ package groupProjectMineField;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,10 +14,14 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import make.MakeMineField;
 import objects.Field;
 
 public class MineFieldController {
+	@FXML
+	private Window window;
+	
 	@FXML
 	private GridPane grid;
 	
@@ -25,14 +32,20 @@ public class MineFieldController {
 	private Label mines;
 	
 	private MakeMineField mineField;
+	private boolean isOver;
+    private boolean isLoosing;
 
 	public void MineFieldInit(int difficulty) {
 		mineField = new MakeMineField(difficulty);
+		isOver = false;
+		isLoosing = true;
 		mineField.print(true, 0);
 	}
 
 	public void PopulateField(Stage stage) {
 
+		window = stage.getScene().getWindow();
+		
 		int width = mineField.getWidth();
 		int height = mineField.getHeight();
 		
@@ -46,6 +59,8 @@ public class MineFieldController {
 			{
 				Button b = new Button();
 				b.setPrefSize(buttonSize, buttonSize);
+				b.setMaxSize(buttonSize, buttonSize);
+				b.setMinSize(buttonSize, buttonSize);
 				b.setOnAction(new EventHandler<ActionEvent>() {
 				    @Override public void handle(ActionEvent e) { handleStep(e); }
 					});
@@ -67,6 +82,8 @@ public class MineFieldController {
 
     @FXML
     private void handleStep(ActionEvent event) {
+    	if (isOver) return;
+    	
     	Button control = (Button)event.getSource();
     	Field  field = (Field)control.getUserData();
     	
@@ -83,6 +100,7 @@ public class MineFieldController {
 
     @FXML
     private void handleClick(MouseEvent event) {
+    	if (isOver) return;
     	if (MouseButton.SECONDARY != event.getButton()) {
     		return;
     	}
@@ -90,9 +108,7 @@ public class MineFieldController {
     	Button control = (Button)event.getSource();
     	Field  field = (Field)control.getUserData();
     	
-    	//mineField.getMineField().markMine(field.x, field.y);
     	field.toggleMine();
-
 		updateGround();
     }
     
@@ -124,6 +140,52 @@ public class MineFieldController {
 				b.setGraphic(null);
 			}			
 		}
+
+		isOver = isGameOver();
+		if (isOver) openResult();
+		
 		mineField.print(true, 0);
+    }
+    
+    private boolean isGameOver() {
+    	if (mineField.getMineField().getLives() == 0) return true;
+
+		for (int i = 0; i < grid.getChildren().size(); i++) {
+			Button b = (Button)grid.getChildren().get(i);
+			if (b.isDisabled()) continue;
+         	Field  f = (Field)b.getUserData();
+         	if (!f.isBoom()) return false;
+		}
+		
+		isLoosing = false;
+    	return true;
+    }
+    
+    private void openResult() {
+        try {
+        	FXMLLoader fxmlLoader = new FXMLLoader();
+        	fxmlLoader.setLocation(getClass().getResource("/groupProjectMineField/GameOver.fxml"));
+
+        	GameOverController ctrl = new GameOverController();
+        	fxmlLoader.setController(ctrl);
+        	
+            Stage stage = new Stage();
+            stage.setTitle("Mine Fields");
+            stage.setScene(new Scene(fxmlLoader.load()));
+            
+        	ctrl.setParent(window);
+
+            if (isLoosing) {
+            	ctrl.resultText("Game Over!");
+            } else {
+            	ctrl.resultText("You survived!");
+            }
+
+            stage.show();
+ //         ((Node)(event.getSource())).getScene().getWindow().hide();
+        }
+	    catch (Exception e) {
+	        e.printStackTrace();
+	    }      
     }
 }
