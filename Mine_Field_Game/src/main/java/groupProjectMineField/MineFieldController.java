@@ -1,10 +1,11 @@
 package groupProjectMineField;
 
+import java.util.Timer;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,14 +32,22 @@ public class MineFieldController {
 	@FXML
 	private Label mines;
 	
+	@FXML
+	private Label duration;
+	
 	private MakeMineField mineField;
 	private boolean isOver;
     private boolean isLoosing;
+    private boolean isFirstStep;
+    private Timer timer;
 
 	public void MineFieldInit(int difficulty) {
 		mineField = new MakeMineField(difficulty);
 		isOver = false;
 		isLoosing = true;
+		isFirstStep = true;
+		timer = new Timer();
+	
 		mineField.print(true, 0);
 	}
 
@@ -88,6 +97,13 @@ public class MineFieldController {
     	Field  field = (Field)control.getUserData();
     	
     	if (field.isMarked()) return;
+    	
+    	if (isFirstStep) {
+    		isFirstStep = false;
+    		GameLength stopper = new GameLength();
+    		stopper.setDurationLabel(duration);
+    		timer.schedule(stopper, 0, 1000);    		
+    	}
     	
     	int ret = mineField.getMineField().step(field);
     	if (ret == 0) return;
@@ -162,6 +178,9 @@ public class MineFieldController {
     }
     
     private void openResult() {
+    	
+    	timer.cancel();
+    	
         try {
         	FXMLLoader fxmlLoader = new FXMLLoader();
         	fxmlLoader.setLocation(getClass().getResource("/groupProjectMineField/GameOver.fxml"));
