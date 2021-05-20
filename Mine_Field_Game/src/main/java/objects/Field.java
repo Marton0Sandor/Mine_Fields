@@ -5,18 +5,31 @@ public class Field {
 	public int neighbours; //number of mines around it. If this is a mine its -1.
 	public boolean clicked;//false = have not been stepped on it. true have been stepped on it.
 	
-	public int x;
-	public int y;
+	private int x;
+	private int y;
+	private boolean mark;
 	
-	public Field(boolean boom)
+	public Field(boolean boom, int posX, int posY)
 	{
+		x = posX;
+		y = posY;
 		this.boom = boom;
 		neighbours = 0;
 		clicked = false;
+		mark = false;
 		if(boom) {
 			neighbours = 9;
 		}
 	}
+
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
 	/*
 	public int getType() {
 		return type;
@@ -44,5 +57,13 @@ public class Field {
 	*/
 	public void setClicked(boolean clicked) {
 		this.clicked = clicked;
+	}
+	
+	public void toggleMine() {
+		mark = !mark;
+	}
+
+	public boolean isMarked() {
+		return mark;
 	}
 }

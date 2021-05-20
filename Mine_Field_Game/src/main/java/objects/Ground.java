@@ -21,39 +21,37 @@ public class Ground {
 	public Ground() {}
 	
 	public int step(int x, int y) {
+		return step(place[y][x]);
+	}
+	
+	public int step(Field field) {
+		int x = field.getX();
+		int y = field.getY();
 		
 		if (x<0 || x>=place.length || y<0 || y>=place[0].length) return 0;
 		
-		try {
-			Ground.fw = new FileWriter("a.txt");
-		} catch (Exception e) {
-			
-		}
-		
-		if(place[y][x].isClicked())
+		if (field.isClicked() || field.isMarked())
 		{
 			return 0;
 		}
-		if(place[y][x].isBoom())
+		
+		if (field.isBoom())
 		{
-			place[y][x].setClicked(true);
+			field.setClicked(true);
 			mines--;
 			lives--;
 			return -1;
 		}
-		place[y][x].setClicked(true);
+		
+		field.setClicked(true);
 		tiles--;
 		
-		if (place[y][x].getNeighbours() == 0)
+		if (isSafeField(field))
 		{
-			step(x-1, y-1);
-			step(x-1, y);
-			step(x-1, y+1);
-			step(x, y-1);
-			step(x, y+1);
-			step(x+1, y-1);
-			step(x+1, y);
-			step(x+1, y+1);
+			for (int i=0; i<8; i++) {
+				Field neighbour = getNeighbour(field, i);
+				if (neighbour != null && !neighbour.isMarked()) step(neighbour);
+			}
 		}
 		
 		return 1;
@@ -98,4 +96,39 @@ public class Ground {
 	public int getLives() {
 		return lives;
 	}
+
+	public Field getNeighbour(Field field, int n) {
+		int x = field.getX();
+		int y = field.getY();
+
+		switch (n)
+		{
+		case 0: y--; x--; break;
+		case 1:      x--; break;
+		case 2: y++; x--; break;
+		
+		case 3: y--; break;
+		case 4: y++; break;
+		
+		case 5: y--; x++; break;
+		case 6:      x++; break;
+		case 7: y++; x++; break;
+		}
+
+		if (x<0 || x>=place.length || y<0 || y>=place[0].length) return null;
+		
+		return place[y][x];
+	}
+	
+	public boolean isSafeField(Field field) {
+		int flags = 0;
+
+		for (int i=0; i<8; i++) {
+			Field neighbour = getNeighbour(field, i);
+			if (neighbour != null && neighbour.isMarked()) flags++;
+		}
+
+		return (flags == field.getNeighbours());
+	}
+		
 }

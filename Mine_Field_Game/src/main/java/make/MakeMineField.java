@@ -81,9 +81,9 @@ public class MakeMineField {
 				tmp = (int) Math.round(Math.random() * 10) % 4;
 				if (tmp == 0 && mines != 0) {
 					mines--;
-					mineField[i][j] = new Field(true);
+					mineField[i][j] = new Field(true, j, i);
 				} else {
-					mineField[i][j] = new Field(false);
+					mineField[i][j] = new Field(false, j, i);
 				}
 			}
 		}
@@ -151,7 +151,7 @@ public class MakeMineField {
 		if (p && mode == 0) {
 			for (int i = 0; i < width; i++) {
 				for (int j = 0; j < height; j++) {
-					System.out.print((tmp[i][j].isBoom())?"X ":"O ");
+					System.out.print((tmp[i][j].isBoom())?"X ":(tmp[i][j].isMarked())?"! ":"O ");
 				}
 				System.out.println("");
 			}

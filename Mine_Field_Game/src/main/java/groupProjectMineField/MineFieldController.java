@@ -5,6 +5,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import make.MakeMineField;
@@ -45,9 +49,11 @@ public class MineFieldController {
 				b.setOnAction(new EventHandler<ActionEvent>() {
 				    @Override public void handle(ActionEvent e) { handleStep(e); }
 					});
-				
-				tmp[y][x].x = x;
-				tmp[y][x].y = y;
+
+				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				    @Override public void handle(MouseEvent e) { handleClick(e); }
+					});
+
 				b.setUserData(tmp[y][x]);
 				
 				GridPane.setConstraints(b, x, y);
@@ -64,14 +70,36 @@ public class MineFieldController {
     	Button control = (Button)event.getSource();
     	Field  field = (Field)control.getUserData();
     	
-    	int ret = mineField.getMineField().step(field.x, field.y);
+    	if (field.isMarked()) return;
+    	
+    	int ret = mineField.getMineField().step(field);
     	if (ret == 0) return;
 
 		lives.setText(String.valueOf(mineField.getMineField().getLives()));
 		mines.setText(String.valueOf(mineField.getMineField().getMines()));
-		
+
+		updateGround();
+	}
+
+    @FXML
+    private void handleClick(MouseEvent event) {
+    	if (MouseButton.SECONDARY != event.getButton()) {
+    		return;
+    	}
+    	
+    	Button control = (Button)event.getSource();
+    	Field  field = (Field)control.getUserData();
+    	
+    	//mineField.getMineField().markMine(field.x, field.y);
+    	field.toggleMine();
+
+		updateGround();
+    }
+    
+    private void updateGround() {
 		for (int i = 0; i < grid.getChildren().size(); i++) {
 			Button b = (Button)grid.getChildren().get(i);
+			if (b.isDisabled()) continue;
 	    	Field  f = (Field)b.getUserData();
 			if (((Field)b.getUserData()).isClicked())
 			{
@@ -83,8 +111,19 @@ public class MineFieldController {
 		    	}
 			
 				b.setDisable(true);
+				continue;
 			}
+
+			if (f.isMarked()) {
+			// put flag
+				Image img = new Image("flag.png");
+      			ImageView view = new ImageView(img);
+      			b.setGraphic(view);			
+			} else {
+			// remove flag
+				b.setGraphic(null);
+			}			
 		}
-		
+		mineField.print(true, 0);
     }
 }
