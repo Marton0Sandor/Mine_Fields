@@ -4,20 +4,32 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="390.0" prefWidth="320" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.minefield.java.fxcontroller.MineController">
+<AnchorPane id="AnchorPane" prefHeight="446.0" prefWidth="320" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.minefield.java.fxcontroller.MineController">
     <children>
-        <Button fx:id="button" layoutX="125.0" layoutY="329.0" onAction="#handleButtonAction" text="Start Game" />
-      <Button layoutX="39.0" layoutY="154.0" mnemonicParsing="false" prefWidth="65.0" text="Easy" onAction="#handleEasy" />
-      <Button layoutX="130.0" layoutY="154.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Medium" onAction="#handleMedium" />
-      <Button layoutX="219.0" layoutY="154.0" mnemonicParsing="false" prefWidth="65.0" text="Hard" onAction="#handleHard" />
-      <TextField fx:id="name" layoutX="85.0" layoutY="93.0" promptText="Player name" />
+        <Button fx:id="button" layoutX="125.0" layoutY="329.0" onAction="#handleButtonAction" text="Start Game" AnchorPane.bottomAnchor="35.85714285714286" />
+      <Button layoutX="39.0" layoutY="154.0" mnemonicParsing="false" onAction="#handleEasy" prefWidth="65.0" text="Easy" AnchorPane.bottomAnchor="210.85714285714286" />
+      <Button layoutX="130.0" layoutY="154.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleMedium" prefWidth="65.0" text="Medium" AnchorPane.bottomAnchor="210.85714285714286" />
+      <Button layoutX="219.0" layoutY="154.0" mnemonicParsing="false" onAction="#handleHard" prefWidth="65.0" text="Hard" AnchorPane.bottomAnchor="210.85714285714286" />
+      <TextField fx:id="name" layoutX="38.0" layoutY="129.0" prefHeight="25.0" prefWidth="247.0" promptText="Player name" AnchorPane.bottomAnchor="252.85714285714286" />
       <Label layoutX="96.0" layoutY="24.0" prefHeight="25.0" prefWidth="121.0" text="Mine Field Game">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="description" alignment="TOP_CENTER" layoutX="97.0" layoutY="195.0" prefHeight="122.0" prefWidth="130.0" text="Select difficulty" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="description" alignment="TOP_CENTER" layoutX="97.0" layoutY="195.0" prefHeight="122.0" prefWidth="130.0" text="Select difficulty" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="72.71428571428571" />
+      <Pane layoutX="39.0" layoutY="66.0" prefHeight="164.0" prefWidth="247.0" AnchorPane.bottomAnchor="294.0" AnchorPane.topAnchor="66.0">
+         <children>
+            <Label fx:id="nev1" layoutX="14.0" layoutY="21.0" prefHeight="17.0" prefWidth="157.0" text="1. ---" />
+            <Label fx:id="nev2" layoutX="14.0" layoutY="38.0" prefHeight="17.0" prefWidth="157.0" text="2. ---" />
+            <Label fx:id="nev3" layoutX="14.0" layoutY="55.0" prefHeight="17.0" prefWidth="157.0" text="3. ---" />
+            <Label fx:id="ido1" layoutX="186.0" layoutY="21.0" text="1. --- sec" />
+            <Label fx:id="ido2" layoutX="186.0" layoutY="38.0" text="2. --- sec" />
+            <Label fx:id="ido3" layoutX="186.0" layoutY="55.0" text="3. --- sec" />
+            <Label alignment="CENTER" layoutX="56.0" layoutY="5.0" prefHeight="17.0" prefWidth="130.0" text="Hall of fame" />
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

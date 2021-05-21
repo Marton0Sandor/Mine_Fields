@@ -1,9 +1,13 @@
 package com.minefield.java.fxcontroller;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.minefield.java.jpa.App;
+import com.minefield.java.jpa.domain.TopScore;
 import com.minefield.java.jpa.repository.MineRepository;
 
 import javafx.event.ActionEvent;
@@ -31,6 +35,9 @@ public class MineController {
 	
 	@FXML
 	private TextField name;
+	
+	@FXML Label nev1, nev2, nev3;
+	@FXML Label ido1, ido2, ido3;
 	
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -62,23 +69,58 @@ public class MineController {
     private void handleEasy(ActionEvent event) {
         description.setText("Difficulty: Easy\nLives: 6\nField size: 8x8\nMine count: 16-24");
         difficulty = 1;
-        
-		if (mineRepository != null) {
-			System.out.println("OK : userRepository != null");
-		}
-        
+        updateHoF();
     }
     
     @FXML
     private void handleMedium(ActionEvent event) {
         description.setText("Difficulty: Medium\nLives: 4\nField size: 16x16\nMine count: 64-128");
         difficulty = 2;
+        updateHoF();
     }
     
     @FXML
     private void handleHard(ActionEvent event) {
         description.setText("Difficulty: Hard\nLives: 2\nField size: 32x32\nMine count: 256-512");
         difficulty = 3;
+        updateHoF();
     }
 
+    private void updateHoF() {
+        Iterable<TopScore> scores = mineRepository.findAllbyDifficulty(difficulty);
+        Iterator<TopScore> itr = scores.iterator();
+        int i = 0;
+        while (itr.hasNext()) {
+        	TopScore item = itr.next();
+            System.out.println(">> " + item.getName() + " >>> time: " + item.getDuration() + " sec");
+        	if (i == 0) {
+        		nev1.setText("1. " + item.getName());
+        		ido1.setText(item.getDuration() + " sec");
+        	} else if (i == 1) {
+        		nev2.setText("2. " + item.getName());
+        		ido2.setText(item.getDuration() + " sec");
+        	} else if (i == 2) {
+        		nev3.setText("3. " + item.getName());
+        		ido3.setText(item.getDuration() + " sec");
+        	} else {
+        		break;
+        	}
+        	i++;
+        }
+
+        for ( ; i<3; i++) {
+        	if (i == 0) {
+        		nev1.setText("1. ----");
+        		ido1.setText("---- sec");
+        	} else if (i == 1) {
+        		nev2.setText("2. ----");
+        		ido2.setText("---- sec");
+        	} else if (i == 2) {
+        		nev3.setText("3. ----");
+        		ido3.setText("---- sec");
+        	}
+        }
+
+    }
+    
 }
