@@ -1,4 +1,4 @@
-package groupProjectMineField;
+package com.minefield.java.fxcontroller;
 
 import java.util.TimerTask;
 

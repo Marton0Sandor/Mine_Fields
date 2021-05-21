@@ -1,13 +1,11 @@
-package make;
+package com.minefield.java.fxcontroller;
 
-import objects.Field;
-import objects.Ground;
 
 public class MakeMineField {
 	public static int EASY_SIZE = 8, NORMAL_SIZE = 16, HARD_SIZE = 32;
 	public static int EASY_LIVES = 6, NORMAL_LIVES = 4, HARD_LIVES = 2;
-	public static int EASY_MINES_MIN = 16, NORMAL_MINES_MIN = 64, HARD_MINES_MIN = 256;
-	public static int EASY_MINES_MAX = 8, NORMAL_MINES_MAX = 64, HARD_MINES_MAX = 256;
+	public static int EASY_MINES_MIN = 8, NORMAL_MINES_MIN = 64, HARD_MINES_MIN = 256;
+	public static int EASY_MINES_MAX = 16, NORMAL_MINES_MAX = 64, HARD_MINES_MAX = 256;
 	public static int EASY = 1, NORMAL = 2, HARD = 3;
 
 	public Ground mineField;

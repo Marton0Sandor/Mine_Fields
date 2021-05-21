@@ -1,4 +1,10 @@
-package groupProjectMineField;
+package com.minefield.java.fxcontroller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.minefield.java.jpa.App;
+import com.minefield.java.jpa.repository.MineRepository;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+@Component
 public class MineController {
+	
+	@Autowired
+	private MineRepository mineRepository;
 	
 	private int difficulty = 0;
 
@@ -26,9 +36,10 @@ public class MineController {
     private void handleButtonAction(ActionEvent event) {
         try {
         	FXMLLoader fxmlLoader = new FXMLLoader();
-        	fxmlLoader.setLocation(getClass().getResource("/groupProjectMineField/MineField_scene.fxml"));
-
-        	MineFieldController ctrl = new MineFieldController();
+        	fxmlLoader.setLocation(getClass().getResource("/MineField_scene.fxml"));
+        	fxmlLoader.setControllerFactory(App.context::getBean);
+        	
+        	MineFieldController ctrl = new MineFieldController(mineRepository);
         	ctrl.MineFieldInit(difficulty);
         	fxmlLoader.setController(ctrl);
         	
@@ -37,6 +48,8 @@ public class MineController {
             stage.setScene(new Scene(fxmlLoader.load()));
             
             ctrl.PopulateField(stage);
+            ctrl.setPlayer(name.getText());
+            
             stage.show();
  //         ((Node)(event.getSource())).getScene().getWindow().hide();
         }
@@ -49,6 +62,11 @@ public class MineController {
     private void handleEasy(ActionEvent event) {
         description.setText("Difficulty: Easy\nLives: 6\nField size: 8x8\nMine count: 16-24");
         difficulty = 1;
+        
+		if (mineRepository != null) {
+			System.out.println("OK : userRepository != null");
+		}
+        
     }
     
     @FXML

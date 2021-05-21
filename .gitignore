@@ -1,4 +1,8 @@
 
 /.metadata/
+/Mine_Field_Game/.settings/
 /Mine_Field_Game/target/
 /Mine_Field_Game/bin/
+
+/Mine_Field_Game/.classpath
+/Mine_Field_Game/.project

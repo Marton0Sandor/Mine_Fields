@@ -1,4 +1,4 @@
-package groupProjectMineField;
+package com.minefield.java.fxcontroller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

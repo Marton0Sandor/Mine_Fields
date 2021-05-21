@@ -1,6 +1,12 @@
-package groupProjectMineField;
+package com.minefield.java.fxcontroller;
 
 import java.util.Timer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.minefield.java.jpa.domain.TopScore;
+import com.minefield.java.jpa.repository.MineRepository;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,10 +22,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import make.MakeMineField;
-import objects.Field;
 
+@Component
 public class MineFieldController {
+
+	@Autowired
+	private MineRepository mineRepository;
+	
 	@FXML
 	private Window window;
 	
@@ -40,7 +49,13 @@ public class MineFieldController {
     private boolean isLoosing;
     private boolean isFirstStep;
     private Timer timer;
-
+    private GameLength stopper;
+    private String name;
+    
+    MineFieldController(MineRepository repo) {
+    	mineRepository = repo;
+    }
+    
 	public void MineFieldInit(int difficulty) {
 		mineField = new MakeMineField(difficulty);
 		isOver = false;
@@ -49,8 +64,16 @@ public class MineFieldController {
 		timer = new Timer();
 	
 		mineField.print(true, 0);
+		
+		if (mineRepository == null) {
+			System.out.println("ERROR : userRepository == null");
+		}
 	}
 
+	public void setPlayer(String str) {
+		name = str;
+	}
+	
 	public void PopulateField(Stage stage) {
 
 		window = stage.getScene().getWindow();
@@ -100,7 +123,7 @@ public class MineFieldController {
     	
     	if (isFirstStep) {
     		isFirstStep = false;
-    		GameLength stopper = new GameLength();
+    		stopper = new GameLength();
     		stopper.setDurationLabel(duration);
     		timer.schedule(stopper, 0, 1000);    		
     	}
@@ -180,10 +203,24 @@ public class MineFieldController {
     private void openResult() {
     	
     	timer.cancel();
+
+    	if (!isLoosing) {
+    		// stopper.getDuration();
+    		// mineField.getMineField().getDificulty();
+    		// name
+    		System.out.println(name + " - " + mineField.getMineField().getDificulty() + " - " + stopper.getDuration() + " sec");
+
+    		TopScore result = new TopScore();
+    		result.setName(name);
+    		result.setDiff(mineField.getMineField().getDificulty());
+    		result.setDuration(stopper.getDuration());
+
+    		mineRepository.save(result);
+    	}
     	
         try {
         	FXMLLoader fxmlLoader = new FXMLLoader();
-        	fxmlLoader.setLocation(getClass().getResource("/groupProjectMineField/GameOver.fxml"));
+        	fxmlLoader.setLocation(getClass().getResource("/GameOver.fxml"));
 
         	GameOverController ctrl = new GameOverController();
         	fxmlLoader.setController(ctrl);
